@@ -1,0 +1,10 @@
+views:			/app/components/RenderTplEngine/TzRender.php
+router:			/app/components/Router/TzRouter.php
+sqlConnect:		/app/components/SQLEntities/TzSQL.php
+DebugTools:		/app/components/DebugTools/DebugTool.php
+tzController: 	/app/components/Controller/TzController.php
+tzValidator:	/app/components/Validator/TzValidator.php
+tzFileManager:	/app/components/FileManager/TzFileManager.php
+TzPlugin:		/app/components/Plugin/TzPlugin.php
+TzAuth:			/app/components/Auth/TzAuth.php
+

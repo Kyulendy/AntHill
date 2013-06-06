@@ -1,0 +1,11 @@
+/nbproject/private/
+/nbproject/*
+/.settings
+/.project
+.DS_Store
+app/.DS_Store
+.idea/*
+.idea/.*
+.project
+
+

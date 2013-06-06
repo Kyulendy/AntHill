@@ -1,0 +1,11 @@
+config:
+	pattern:   /configTiitz
+	ressource: /app/components/Gui/config/routing.yml
+
+site_yaml:
+	pattern:   /
+	ressource: /src/config/routing.yml
+
+site_php:
+    pattern:	/
+    ressource:	/src/config/routing.php

@@ -1,0 +1,8 @@
+# Manage toolbar and error
+toolbar:
+    display: true
+
+error:
+    visibility: 5 #read documentation to know the differents level
+    path: ../app/log/
+    save: true

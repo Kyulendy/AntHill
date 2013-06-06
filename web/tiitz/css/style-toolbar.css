@@ -1,0 +1,221 @@
+.tiitz-toolbar, .tiitz-toolbar p, .tiitz-toolbar ul, .tiitz-toolbar li 
+{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+.tiitz-toolbar p
+{
+	line-height: 1.2;
+}
+.toolbar-clear 
+{
+	clear: both;
+}
+.tiitz-toolbar a
+{
+	
+}
+.tiitz-toolbar
+{
+	display: block;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333;
+	width: 100%;
+}
+.tiitz-toolbar .tiitz-navbar
+{
+	position: relative;
+	overflow: visible;
+	width: 100%;
+	margin-bottom: 0;	
+}
+.tiitz-toolbar .tiitz-navbar > li
+{
+    position :relative;
+}
+.tiitz-toolbar .tiitz-inner
+{
+	min-height: 40px;
+	padding-right: 20px;
+	background-color: #E5E5E5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#fff2f2f2',GradientType=0);
+}
+.tiitz-toolbar .tiitz-nav
+{
+	position: relative;
+	left: 0;
+	display: block;
+	float: left;
+	margin: 0 10px 0 0;
+}
+.tiitz-divider 
+{
+	height: 40px;
+	margin: 0 9px;
+	border-left: 1px solid #DEDEDE;
+}
+/* main menu */
+.tiitz-nav > li
+{
+	float: left;
+	line-height: 20px;
+}
+.tiitz-nav > li > a
+{
+	display: block;
+	float: none;
+	padding: 10px 15px 10px;
+	color: #777;
+	text-decoration: none;
+	text-shadow: 0 1px 0 white;
+}
+.tiitz-nav > li > a.tiitz-home
+{
+	padding: 0 15px;
+}
+
+/* brand */
+.tiitz-brand
+{
+	padding: 2px 10px !important;
+}
+.tiitz-brand > img
+{
+	position: relative;
+	top: 3px;
+	max-width: 100%;
+	max-height: 100%;
+	width: 30px;
+	height: 30px;
+
+}
+#tiitz-version
+{
+	position: relative;
+	top: -7px;
+	margin-left: 10px;
+}
+/* general setting */
+ul#toolbar-php-version > li > div, ul#toolbar-file-controller > li > div, ul#toolbar-tiitz-info > li > div,
+ul#toolbar-config > li >div 
+{
+	position: absolute;
+	bottom: 40px;
+	min-width: 300px;
+	min-height: 200px;
+	background-color: #fff;
+	padding: 5px;
+    border: 1px solid #DEDEDE;
+    border-bottom: 1px solid transparent;
+}
+ul#toolbar-tiitz-info h2
+{
+	font-size: 13px;
+	padding: 0px;
+	padding-bottom: 5px;
+	margin: 0px;
+	line-height: 1;
+	text-transform: uppercase;
+}
+ul.tiitz-toolbar-info {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	display: none;
+}
+
+ul.tiitz-nav > li:hover ul.tiitz-toolbar-info {
+	display: block;
+	border : 0px solid #000;
+}
+ul.tiitz-nav > li.tiitz-active:hover {
+    background-color: #ffffff;
+    z-index :1000;
+}
+/* toolbar info support */
+div#toolbar-tiitz-version {
+	width: 310px;
+	left: 66px;
+}
+div#toolbar-tiitz-version ul li {
+	width: 100%;
+	border-bottom: 1px solid #4C4C4C;
+	padding: 5px 0px;
+	background-color: #ffffff;
+	margin-right: 4px;
+}
+div#toolbar-tiitz-version ul li:last-child {
+	border-bottom: transparent;
+}
+div#toolbar-header h2 a {
+	color: #000;
+}
+div#toolbar-header h2 a:hover {
+	color: #B80300;
+}
+div#toolbar-text p {
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+}	
+div#toolbar-tiitz-version div#toolbar-photo {
+	float: left; 
+	width : 50px;
+}
+div#toolbar-tiitz-version div#toolbar-photo img {
+	width: 40px;
+	height: 40px;
+	margin-bottom: 5px;
+}
+div#toolbar-tiitz-version div#toolbar-content {
+	float: left;
+	width: 250px;
+}
+/* php ini */
+ul#toolbar-php-version ul#toolbar-php-version-detail h3 
+{
+	font-family: "Helvetica neu","MillerDisplay",Georgia,serif;
+	font-size: 15px;
+	padding: 0px;
+	margin: 0px;
+	line-height: 1;
+	margin: 10px 0px;
+}
+/* configuration */
+ul#toolbar-config > li >div
+{
+	min-width: 200px;
+	min-height: 70px;
+}
+/* router */
+ul#toolbar-file-controller > li > div  {
+	min-width: 200px;
+	min-height: 70px;
+}
+/* current error */
+.tiitz-danger, .tiitz-nav > li > .tiitz-danger:hover
+{
+	background-color: #990000;
+	padding : 10px 30px !important;
+	box-shadow: none;
+	text-shadow: none !important;
+	color : #ffffff !important;
+}
+/* log error */
+#myLogError .odd
+{
+	background-color: #fff;
+	padding : 2px 5px;
+}
+
+
+

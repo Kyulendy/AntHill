@@ -1,0 +1,1 @@
+<p>Bienvenue : moteur de template smarty</p>

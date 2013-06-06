@@ -1,0 +1,59 @@
+config:
+    pattern:    /
+    controller: main:check
+
+install:
+    pattern:    /configTiitz/install
+    controller: main:check
+
+edit:
+    pattern:    /configTiitz/edit
+    controller: main:checkEdit
+
+endingInstall:
+    pattern:	/configTiitz/endInstallation
+    controller:	main:endInstallation
+
+
+#entityGeneratorPOST:
+#    pattern:    /configTiitz/entityGenerator
+#    defaults:   {_controller: generator:posted}
+#    requirements:
+#    	_method: POST
+
+entityGenerator:
+    pattern:    /configTiitz/toolbar/entityGenerator
+    controller: generator:generateEntity
+
+entityResumeInfo:
+	pattern:	/configTiitz/entityGenerator
+	controller: generator:entitiesResum
+
+#toolbar routes
+toolbar:
+	pattern:    /configTiitz/toolbar
+	controller: Toolbar:index
+
+toolbarPHPInfoConfiguration:
+	pattern:    /configTiitz/toolbar/phpinfo/configuration
+	controller: Toolbar:phpinfoConfiguration
+
+toolbarPHPInfoGeneral:
+	pattern:    /configTiitz/toolbar/phpinfo/general
+	controller: Toolbar:phpinfoGeneral
+
+toolbarPHPInfoEnv:
+	pattern:    /configTiitz/toolbar/phpinfo/environnement
+	controller: Toolbar:phpinfoEnv
+
+toolbarPHPInfoVariable:
+	pattern:    /configTiitz/toolbar/phpinfo/variable
+	controller: Toolbar:phpinfoVariable
+
+toolbarPHPInfoModule:
+	pattern:    /configTiitz/toolbar/phpinfo/module
+	controller: Toolbar:phpinfoModule
+
+toolbarLog:
+	pattern:    /configTiitz/toolbar/log
+	controller: Toolbar:log	
