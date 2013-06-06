@@ -1,0 +1,7 @@
+
+default_show:
+	pattern:	 / 
+	controller: default:show
+dashboard_show:
+	pattern:	/dashboard
+	controller: dashboard:show 
