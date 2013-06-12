@@ -7,4 +7,5 @@ tzValidator:	/app/components/Validator/TzValidator.php
 tzFileManager:	/app/components/FileManager/TzFileManager.php
 TzPlugin:		/app/components/Plugin/TzPlugin.php
 TzAuth:			/app/components/Auth/TzAuth.php
+TzACL:			/app/components/ACL/TzACL.php
 

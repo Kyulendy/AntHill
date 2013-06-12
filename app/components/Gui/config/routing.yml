@@ -22,7 +22,7 @@ endingInstall:
 #    	_method: POST
 
 entityGenerator:
-    pattern:    /configTiitz/toolbar/entityGenerator
+    pattern:    /configTiitz/entityGenerator
     controller: generator:generateEntity
 
 entityResumeInfo:
@@ -56,4 +56,16 @@ toolbarPHPInfoModule:
 
 toolbarLog:
 	pattern:    /configTiitz/toolbar/log
-	controller: Toolbar:log	
+	controller: Toolbar:log
+
+toolbarConfig:
+	pattern:    /configTiitz/toolbar/config-prod
+	controller: Toolbar:config
+
+toolbarConfigDev:
+	pattern:    /configTiitz/toolbar/config-dev
+	controller: Toolbar:configDev
+
+toolbarACLGenerate:
+	pattern:    /configTiitz/toolbar/acl/generate
+	controller: Toolbar:generateACL

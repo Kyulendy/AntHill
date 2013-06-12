@@ -6,7 +6,7 @@ class ErrorManager extends ErrorManagerExtend {
 	private $error = array();
     private $statusError = true;
 
-	/**
+	/** 
 	 * launch php function for managing error
 	 * @param array $errorReport manage visibility of php error
 	 */
