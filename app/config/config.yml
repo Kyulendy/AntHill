@@ -6,10 +6,10 @@ template:    twig
 
 # database configuration
 database:
-    user:
-    password:
-    dbname:
-    host:
+    user:		root
+    password:		
+    dbname:		anthill
+    host:		127.0.0.1
     engine:		mysql
 
 # language (tool development)
@@ -19,4 +19,4 @@ language:    fr
 environnement:    dev
 
 # Permit to check if a project is already started
-existingproject:    false
+existingproject:    true
