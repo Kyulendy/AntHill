@@ -20,3 +20,5 @@ environnement:    dev
 
 # Permit to check if a project is already started
 existingproject:    true
+
+salt: EnterYourSaltHere
