@@ -1,0 +1,18 @@
+.hidden {
+	display:none !important;
+}
+.forgot_pwd {
+	float:left;
+}
+.forgot_pwd a {
+	color:#666666;
+	cursor: pointer;
+	float:left;
+	margin:10px;
+}
+.user #no-logo {
+	background-image: none;
+}
+aside#sidebar {
+	min-height: 610px;
+}

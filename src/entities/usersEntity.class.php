@@ -3,7 +3,7 @@
 
 				
 
-		class userEntity {
+		class usersEntity {
 					
 			private $id_user;
 			
@@ -101,7 +101,7 @@
 
 				if(!empty($this->id_user)){
 
-					$sql = "DELETE FROM user WHERE id_user = ".intval($this->id_user).";";
+					$sql = "DELETE FROM users WHERE id_user = ".intval($this->id_user).";";
 
 					$result = TzSQL::getPDO()->prepare($sql);
 					$result->execute();
@@ -119,7 +119,7 @@
 
 			public function Update(){
 
-				$sql = 'UPDATE `user` SET `id_user` = "'.$this->id_user.'", `email` = "'.$this->email.'", `first_name` = "'.$this->first_name.'", `last_name` = "'.$this->last_name.'", `password` = "'.$this->password.'", `status` = "'.$this->status.'" WHERE id_user = '.intval($this->id_user);
+				$sql = 'UPDATE `users` SET `id_user` = "'.$this->id_user.'", `email` = "'.$this->email.'", `first_name` = "'.$this->first_name.'", `last_name` = "'.$this->last_name.'", `password` = "'.$this->password.'", `status` = "'.$this->status.'" WHERE id_user = '.intval($this->id_user);
 
 				$result = TzSQL::getPDO()->prepare($sql);
 				$result->execute();
@@ -144,7 +144,7 @@
 
 				$this->id_user = '';
 
-				$sql = 'INSERT INTO user (`id_user`,`email`,`first_name`,`last_name`,`password`,`status`) VALUES ("'.$this->id_user.'","'.$this->email.'","'.$this->first_name.'","'.$this->last_name.'","'.$this->password.'","'.$this->status.'")';
+				$sql = 'INSERT INTO users (`id_user`,`email`,`first_name`,`last_name`,`password`,`status`) VALUES ("'.$this->id_user.'","'.$this->email.'","'.$this->first_name.'","'.$this->last_name.'","'.$this->password.'","'.$this->status.'")';
 
 				$result = TzSQL::getPDO()->prepare($sql);
 				$result->execute();
@@ -164,7 +164,7 @@
 			/********************** FindAll ***********************/
 			public function findAll(){
 
-				$sql = 'SELECT * FROM user';
+				$sql = 'SELECT * FROM users';
 				$result = TzSQL::getPDO()->prepare($sql);
 				$result->execute();
 				$formatResult = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -172,7 +172,7 @@
 
 				foreach ($formatResult as $key => $data) {
 
-					$tmpInstance = new userEntity();
+					$tmpInstance = new usersEntity();
 
 					foreach ($data as $k => $value) {
 
@@ -226,7 +226,7 @@
 						return false;
 				}
 
-				$sql =  'SELECT * FROM user WHERE '.$param.' = "'.$value.'"';
+				$sql =  'SELECT * FROM users WHERE '.$param.' = "'.$value.'"';
 				$data = TzSQL::getPDO()->prepare($sql);
 				$data->execute();
 				$result =  $data->fetch(PDO::FETCH_OBJ);
@@ -252,7 +252,7 @@
 			/********************** Find(id) ***********************/
 			public function find($id){
 
-				$sql = 'SELECT * FROM user WHERE id_user = ' . $id;
+				$sql = 'SELECT * FROM users WHERE id_user = ' . $id;
 				$result = TzSQL::getPDO()->prepare($sql);
 				$result->execute();
 				$formatResult = $result->fetch(PDO::FETCH_OBJ);
@@ -308,7 +308,7 @@
 						return false;
 				}
 
-				$sql =  'SELECT * FROM user WHERE '.$param.' = "'.$value.'"';
+				$sql =  'SELECT * FROM users WHERE '.$param.' = "'.$value.'"';
 				$data = TzSQL::getPDO()->prepare($sql);
 				$data->execute();
 				$formatResult = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -318,7 +318,7 @@
 
 					foreach ($formatResult as $key => $data) {
 
-						$tmpInstance = new userEntity();
+						$tmpInstance = new usersEntity();
 
 						foreach ($data as $k => $value) {
 

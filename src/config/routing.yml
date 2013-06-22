@@ -1,7 +1,19 @@
-
+# Layout is just an example design. Don't modify the associated template
+sample_show:
+	pattern:	/sample
+	controller: sample:show
 default_show:
 	pattern:	 / 
 	controller: default:show
-dashboard_show:
-	pattern:	/dashboard
-	controller: dashboard:show 
+login:
+	pattern:	 /login
+	controller: default:login
+register:
+	pattern:	 /register
+	controller: default:register
+logout:
+	pattern:	 /logout
+	controller: default:logout
+dashboard:
+	pattern:	 /dashboard
+	controller: default:dashboard

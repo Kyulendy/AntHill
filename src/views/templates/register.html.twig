@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	{% include 'header.html.twig' %}
+	{% include 'about.html.twig' %}
+	
+	<section id="main" class="column">
+		
+		{#<h4 class="alert_info">Welcome to the free MediaLoot admin panel template, this could be an informative message.</h4>#}
+		
+		<article class="module width_full">
+			<form method='POST' action='{{WEB_PATH}}/register' name="register">
+			<header><h3>Register</h3></header>
+				<h4 class="alert_warning">Error. Please try again</h4>
+				<div class="module_content">
+					<fieldset>
+						<label>Login</label>
+						<input type="text" name='login'>
+					</fieldset>
+					<fieldset>
+						<label>Password</label>
+						<input type="password" name='password'>
+					</fieldset>
+					<fieldset>
+						<label>Repeat Password</label>
+						<input type="password" name='repeat_password'>
+					</fieldset>
+					<div class="clear"></div>
+				</div>
+			<footer>
+				<div class="submit_link">
+					<input type="submit" value="Register" class="alt_btn">
+				</div>
+			</footer>
+		</form>
+		</article><!-- end of post new article -->
+		
+		<!--
+		<h4 class="alert_warning">A Warning Alert</h4>
+		<h4 class="alert_error">An Error Message</h4>
+		<h4 class="alert_success">A Success Message</h4>
+		-->
+		
+		{% block footer %}
+			<div class="spacer"></div>
+		{% endblock footer %}
+	</section>
+{% endblock %}
