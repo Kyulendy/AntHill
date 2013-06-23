@@ -43,12 +43,12 @@ class defaultController extends TzController {
 					    //Fetch entity to get name and lastname
 					    $user = tzSQL::getEntity('users');
 	    				$user->findOneBy("email", $login);
-					    $data = array('login'   => $login,
+					    $data = array('id' =>$user->getId_user(),
+					    			'login'   => $login,
 			                		'firstname' => $user->getFirst_name(),
 			                		'lastname' => $user->getLast_name());
-					    //die(var_dump($data));
 			  			//TzAuth::addUserSession($data); // ?
-					    $this->tzRender->run('/templates/dashboard');
+					    $this->tzRender->run('/templates/dashboard', $data);
 					    //dashb - inside it use sessions names and stuff
 					} else {
 						//Connection error
@@ -64,7 +64,33 @@ class defaultController extends TzController {
 	public function registerAction () {
 		if(TzAuth::isUserLoggedIn())
 			TzAuth::logout();
-		$this->tzRender->run('/templates/register');
+		if (isset($_POST["register"])) {
+		//Request sent
+			if ((empty($_POST['login']))||(empty($_POST['password']))||(empty($_POST['repeat_password']))||(empty($_POST['firstname']))||(empty($_POST['lastname'])) ) {
+			    $this->tzRender->run('/templates/register', array('error' => "Fill all the fields please"));
+			} else if (($_POST['password'])!=($_POST['repeat_password'])) {
+			    $this->tzRender->run('/templates/register', array('error' => "Password and password confirmation don't match"));
+			} else if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
+			    $this->tzRender->run('/templates/register', array('error' => "Please enter a valid email"));
+			} else {
+				$user = tzSQL::getEntity('users');
+				$user->findOneBy("email", $_POST['login']);
+				if (!empty($user)) {
+				    $this->tzRender->run('/templates/register', array('error' => "This login is already taken"));
+				} else {
+					//Register
+					$usersEntity = tzSQL::getEntity('users');
+					$usersEntity->setEmail($_POST['login']);
+					$usersEntity->setPassword(TzAuth::encryptPwd($_POST['password']));
+					$usersEntity->setFirst_name($_POST['firstname']);
+					$usersEntity->setLast_name($_POST['lastname']);
+					$usersEntity->Insert();
+				    $this->tzRender->run('/templates/login', array('success' => "You have been registered. Please log in."));
+				}
+			}
+		} else {
+			$this->tzRender->run('/templates/register');
+		}
 	}
 
 	// Logout

@@ -14,6 +14,9 @@
 			{# {{ if error is not empty }} #}
 				<h4 class="alert_warning">{{error}}</h4>
 			{#{{ endif }}#}
+			{# {{ if success is not empty }} #}
+				<h4 class="alert_success">{{success}}</h4>
+			{#{{ endif }}#}
 				<div class="module_content">
 					<fieldset>
 						<label>Login</label>
@@ -31,7 +34,7 @@
 				</div>
 				<div class="submit_link">
 					<input type="submit" value="Enter" class="alt_btn">
-					<input type="submit" value="Register">
+					<a href='{{WEB_PATH}}/register'>No account yet ? Register here </a>
 				</div>
 			</footer>
 		</form>

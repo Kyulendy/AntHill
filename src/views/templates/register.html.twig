@@ -11,11 +11,19 @@
 		<article class="module width_full">
 			<form method='POST' action='{{WEB_PATH}}/register' name="register">
 			<header><h3>Register</h3></header>
-				<h4 class="alert_warning">Error. Please try again</h4>
+				<h4 class="alert_warning">{{error}}</h4>
 				<div class="module_content">
 					<fieldset>
 						<label>Login</label>
 						<input type="text" name='login'>
+					</fieldset>
+					<fieldset>
+						<label>Firstname</label>
+						<input type="text" name='firstname'>
+					</fieldset>
+					<fieldset>
+						<label>Lastname</label>
+						<input type="text" name='lastname'>
 					</fieldset>
 					<fieldset>
 						<label>Password</label>
