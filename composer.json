@@ -1,0 +1,23 @@
+{
+	"name": "tiitz/tiitz",
+    "description": "The PHP TiiTz framework",
+    "keywords": ["framework"],
+    "homepage": "http://tiitz.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TiiTz Development Team"
+        }
+    ],
+    "require": {
+        "twig/twig": "1.13.*",
+        "symfony/class-loader": "2.3.0",
+        "swiftmailer/swiftmailer" : "5.0.*"
+    },
+    "suggest": {
+        "smarty/smarty": "Allow Smarty templating with the Parser package"
+    },
+    "config": {
+        "vendor-dir": "vendors"
+    }
+}

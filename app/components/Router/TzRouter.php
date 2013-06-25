@@ -1,5 +1,9 @@
 <?php
 
+namespace Components\Router;
+use Components\Spyc\Spyc;
+use Components\DebugTools\DebugTool;
+
 class TzRouter {
 
 	private static $arrayRoute;
@@ -82,7 +86,7 @@ class TzRouter {
 			$type = 'site_yaml';
 
 		#var_dump(ROOT.$arrayRoutes[$type]['ressource']);
-		
+
 		if(!file_exists(ROOT.$arrayRoutes[$type]['ressource'])) {
 			DebugTool::$error->catchError(array('Routing file missing', __FILE__,__LINE__, true));
 		}
@@ -147,7 +151,7 @@ class TzRouter {
 				self::$arrayRoute = 'Error While parsing Controller route';
 			} else {
 				if($selectedRoute['type'] == 'config') {
-					self::$arrayRoute['dirPath'] = '/app/components/Gui/controllers/';
+					self::$arrayRoute['dirPath'] = '/app/Components/Gui/controllers/';
 					self::$arrayRoute['path'] = self::$arrayRoute['dirPath'].$arrayController[0].'Controller.php';
 				} else {
 					self::$arrayRoute['dirPath'] = '/src/controllers/';

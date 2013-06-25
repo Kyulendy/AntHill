@@ -1,5 +1,7 @@
 <?php
 
+use Components\SQLEntities\TzSQL;
+
 function createEntity($tables){
 
 	$results = array();
@@ -24,11 +26,30 @@ function createEntity($tables){
 		$file = fopen( $filename, "w+" );
 		$filedate = date( "d.m.Y" );
 
+        $dbNameQuery = TzSQL::getPDO()->prepare("SELECT DATABASE() as dbname");
+        $dbNameQuery->execute();
+        $dbName = $dbNameQuery->fetchAll(\PDO::FETCH_ASSOC);
 
-		$c = "
-	<?php
+        $foreignKeyQuery ="SELECT A.TABLE_SCHEMA AS FKTABLE_SCHEM, A.TABLE_NAME AS FKTABLE_NAME, A.COLUMN_NAME AS FKCOLUMN_NAME,
+                                A.REFERENCED_TABLE_SCHEMA AS PKTABLE_SCHEM, A.REFERENCED_TABLE_NAME AS PKTABLE_NAME,
+                                A.REFERENCED_COLUMN_NAME AS PKCOLUMN_NAME
+                                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE A, INFORMATION_SCHEMA.TABLE_CONSTRAINTS B
+                                WHERE A.TABLE_SCHEMA = B.TABLE_SCHEMA AND A.TABLE_NAME = B.TABLE_NAME
+                                AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME AND B.CONSTRAINT_TYPE IS NOT NULL
+                                HAVING PKTABLE_SCHEM IS NOT NULL
+                                and A.TABLE_SCHEMA = :dbname
+                                and A.TABLE_NAME = :tbname
+                                ORDER BY A.TABLE_SCHEMA, A.TABLE_NAME, A.ORDINAL_POSITION limit 1000";
 
-				
+        $getFK = TzSQL::getPDO()->prepare($foreignKeyQuery);
+        $getFK->execute(array(":dbname"=>$dbName[0]['dbname'],":tbname"=>$tablename));
+
+        $FK = $getFK->fetchAll(\PDO::FETCH_ASSOC);
+
+
+		$c = "<?php
+		use Components\SQLEntities\TzSQL;
+		use Components\DebugTools\DebugTool;
 
 		class $class {
 					";
@@ -42,8 +63,23 @@ function createEntity($tables){
 			";
 		}
 
+        $c.= "
+            private $"."relations = array(";
+
+        foreach($FK as $relation){
+            $c.= "'".$relation['PKTABLE_NAME']."'=>array('".$relation['FKCOLUMN_NAME']."'=>'".$relation['PKCOLUMN_NAME']."'),";
+        }
+        $c.= ");
+        ";
+
+        foreach($FK as $relation){
+            $c.= "
+            private $".$relation['PKTABLE_NAME'].";
+            ";
+        }
 
 		$c.="
+
 
 
 			/********************** GETTER ***********************/
@@ -202,7 +238,7 @@ function createEntity($tables){
 		$c.="
 
 			/********************** FindAll ***********************/
-			public function findAll(){
+			public function findAll($" . "recursif = 'yes'){
 
 				$" . "sql = 'SELECT * FROM ".$table."';
 				$" . "result = TzSQL::get" . "PDO()->prepare($" . "sql);
@@ -218,6 +254,16 @@ function createEntity($tables){
 
 						$" . "method = 'set'.ucfirst($" . "k);
 						$" . "tmpInstance->$" . "method($" . "value);
+
+						if($" . "recursif == null){
+                            foreach($" . "this->relations as $" . "relationId => $" . "relationLinks){
+                                if(array_key_exists($" . "k, $" . "relationLinks)){
+                                    $" . "entity = tzSQL::getEntity($" . "relationId);
+                                    $" . "content =  $" . "entity->findManyBy($" . "relationLinks[$" . "k],$" . "value, 'no');
+                                    $" . "tmpInstance->$" . "relationId = $" . "content;
+                                }
+                            }
+                        }
 					}
 					array_push($" . "entitiesArray, $" . "tmpInstance);
 				}
@@ -250,7 +296,6 @@ function createEntity($tables){
 						";
 		}
 
-
 		$c.="
 					default:
 						DebugTool::\$error->catchError(array('Colonne introuvable: est-elle presente dans la base de donnée ?', __FILE__,__LINE__, true));
@@ -271,6 +316,16 @@ function createEntity($tables){
 
 					$c.="$" . "this->" . $col . " = $" . "result->" . $col.";
 					";
+
+                    foreach($FK as $relation){
+                        if($relation['FKCOLUMN_NAME'] == $col){
+                            $c.="
+                    $" . "entity".ucfirst($col)." = tzSQL::getEntity('".$relation['PKTABLE_NAME']."');
+                    $" . "content".ucfirst($col)." =  $" . "entity".ucfirst($col)."->findManyBy('".$relation['PKCOLUMN_NAME']."',$" . "result->" . $col.", 'no');
+                    $"."this->" . $relation['PKTABLE_NAME'] . " = $" . "content".ucfirst($col).";
+                ";
+                        }
+                    }
 				}
 		$c.="
 					return true;
@@ -303,7 +358,17 @@ function createEntity($tables){
 
 				$c.="	$" . "this->" . $col . " = $" . "formatResult->" . $col.";
 				";
-			}
+
+                foreach($FK as $relation){
+                    if($relation['FKCOLUMN_NAME'] == $col){
+                        $c.="
+                    $" . "entity".ucfirst($col)." = tzSQL::getEntity('".$relation['PKTABLE_NAME']."');
+                    $" . "content".ucfirst($col)." =  $" . "entity".ucfirst($col)."->findManyBy('".$relation['PKCOLUMN_NAME']."',$" . "formatResult->" . $col.", 'no');
+                    $"."this->" . $relation['PKTABLE_NAME'] . " = $" . "content".ucfirst($col).";
+                ";
+                    }
+                }
+            }
 
 
 			$c.="
@@ -320,7 +385,7 @@ function createEntity($tables){
 		$c.="
 
 			/************* FindManyBy(column, value) ***************/
-			public function findManyBy($" . "param,$" . "value){
+			public function findManyBy($" . "param,$" . "value,$" . "recursif = 'yes'){
 
 
 				switch ($" . "param){
@@ -361,6 +426,17 @@ function createEntity($tables){
 
 							$" . "method = 'set'.ucfirst($" . "k);
 							$" . "tmpInstance->$" . "method($" . "value);
+
+                            if($" . "recursif == 'yes'){
+                                foreach($" . "this->relations as $" . "relationId => $" . "relationLinks){
+                                    if(array_key_exists($" . "k, $" . "relationLinks)){
+                                        $" . "entity = tzSQL::getEntity($" . "relationId);
+                                        $" . "content =  $" . "entity->findManyBy($" . "relationLinks[$" . "k],$" . "value, 'no');
+                                        $" . "tmpInstance->$" . "relationId = $" . "content;
+                                    }
+                                }
+                            }
+
 						}
 						array_push($" . "entitiesArray, $" . "tmpInstance);
 					}

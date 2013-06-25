@@ -4,10 +4,13 @@
  * when no parameters are passed.
  * You can change is behavior, do what you want.
  */
+
+use Components\Controller\TzController;
+
 class defaultController extends TzController {
 
 	// first method call when the website is launched
 	public function showAction () {
-		$this->tzRender->run('/templates/default');                                                        
+		$this->tzRender->run('/templates/default');
 	}
 }

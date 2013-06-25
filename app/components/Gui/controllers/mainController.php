@@ -2,6 +2,9 @@
 /**
 * 
 */
+use Components\Controller\TzController;
+use Components\FileManager\TzFileManager;
+use Components\Spyc\Spyc;
 require_once 'validatorController.class.php';
 
 class MainController extends TzController {
@@ -37,10 +40,10 @@ class MainController extends TzController {
 				// redirect /web/index.php which will redirect to /src/config/routing.yml
 				header('location:'.WEB_PATH.'/index.php');
 			} else {
-				require_once("../app/components/Gui/views/_index.php");
+				require_once("../app/Components/Gui/views/_index.php");
 			}
 		} else {
-			require_once("../app/components/Gui/views/_index.php");
+			require_once("../app/Components/Gui/views/_index.php");
 		}
 
 	}
@@ -80,7 +83,7 @@ class MainController extends TzController {
 		// File manager class
 		$fm = new TzFileManager(ROOT);
 		$fm->set_currentItem(ROOT."/src/config/");
-		require_once(ROOT.'/app/components/Spyc/Spyc.php');
+		require_once(ROOT.'/app/Components/Spyc/Spyc.php');
 		$config = Spyc::YAMLLoad(ROOT.'/app/config/config.yml');
 		$this -> routingExtension = $config['routingType'];
 		if ($config['template'] == 'smarty') {
@@ -100,13 +103,13 @@ class MainController extends TzController {
 			if ($this -> routingExtension === "php")
 				$fm->replace_fileContent('<?php'."\n\t".'$tzRoute = array('."\n\n\t\t".'"default_show" => array('."\n\t\t\t".'"pattern" => "/",'."\n\t\t\t".'"controller" => "default:show" ),'."\n");
 			// layout template
-			$fm->fCopy(ROOT."/app/components/template/views/defaultView/layout.".$this->extension, ROOT."/src/views/layout.".$this->extension);
-			$fm->fCopy(ROOT."/app/components/template/views/defaultView/templates/default.".$this->extension, ROOT."/src/views/templates/default.".$this->extension);
+			$fm->fCopy(ROOT."/app/Components/template/views/defaultView/layout.".$this->extension, ROOT."/src/views/layout.".$this->extension);
+			$fm->fCopy(ROOT."/app/Components/template/views/defaultView/templates/default.".$this->extension, ROOT."/src/views/templates/default.".$this->extension);
 			// default controller
 			if ($this->extension == "html.twig") {
-				$fm->fCopy(ROOT."/app/components/template/controllers/twigDefaultController.php", ROOT."/src/controllers/defaultController.php");
+				$fm->fCopy(ROOT."/app/Components/template/controllers/twigDefaultController.php", ROOT."/src/controllers/defaultController.php");
 			} else {
-				$fm->fCopy(ROOT."/app/components/template/controllers/phpDefaultController.php", ROOT."/src/controllers/defaultController.php");
+				$fm->fCopy(ROOT."/app/Components/template/controllers/phpDefaultController.php", ROOT."/src/controllers/defaultController.php");
 			}
 			$firstEdit = true;
 		}
@@ -140,7 +143,7 @@ class MainController extends TzController {
 				$fm->set_currentItem(ROOT."/src/controllers");
 				$fm->xtouch($page."Controller.php");
 				$fm->set_currentItem(ROOT."/src/controllers/".$page."Controller.php");
-				$fm->add_fileContent("<?php \n\nclass ".$page."Controller extends TzController {\n\t public function showAction () {\n\t\t echo 'Vous &ecirc;tes sur la page : ".$page."';\n\t}\n}\n");
+				$fm->add_fileContent("<?php \n\n use app\Components\Controller\TzController; \n\t class ".$page."Controller extends TzController {\n\t public function showAction () {\n\t\t echo 'Vous &ecirc;tes sur la page : ".$page."';\n\t}\n}\n");
 			}
 			
 		} 
@@ -172,23 +175,23 @@ class MainController extends TzController {
 
 		// We set the app controller and copy it
 		if ($this->extension == "html.twig")
-			$fm->fCopy(ROOT."/app/components/template/controllers/twigDefaultController.php", ROOT."/src/controllers/defaultController.php");
+			$fm->fCopy(ROOT."/app/Components/template/controllers/twigDefaultController.php", ROOT."/src/controllers/defaultController.php");
 		else
-			$fm->fCopy(ROOT."/app/components/template/controllers/phpDefaultController.php", ROOT."/src/controllers/defaultController.php");
+			$fm->fCopy(ROOT."/app/Components/template/controllers/phpDefaultController.php", ROOT."/src/controllers/defaultController.php");
 
 		// We set the src layout and delete it
 		$fm->set_currentItem(ROOT."/src/views/layout.".$this->extension);
 		$fm->fDelete();
 
 		// We set the app layout and copy it
-		$fm->fCopy(ROOT."/app/components/template/views/clearView/layout.".$this->extension, ROOT."/src/views/layout.".$this->extension);
+		$fm->fCopy(ROOT."/app/Components/template/views/clearView/layout.".$this->extension, ROOT."/src/views/layout.".$this->extension);
 
 		// We set the src defaultTemplate and delete it
 		$fm->set_currentItem(ROOT."/src/views/templates/default.".$this->extension);
 		$fm->fDelete();
 
 		// We set the defaultTemplate and copy it
-		$fm->fCopy(ROOT."/app/components/template/views/clearView/templates/default.".$this->extension, ROOT."/src/views/templates/default.".$this->extension);
+		$fm->fCopy(ROOT."/app/Components/template/views/clearView/templates/default.".$this->extension, ROOT."/src/views/templates/default.".$this->extension);
 
 		Header("Location:". WEB_PATH);
 	}
@@ -197,7 +200,7 @@ class MainController extends TzController {
 	{
 		$fm = new TzFileManager(ROOT);
 		$fm->set_currentItem(ROOT."/app/config/config.yml");
-		require_once(ROOT.'/app/components/Spyc/Spyc.php');
+		require_once(ROOT.'/app/Components/Spyc/Spyc.php');
 		$config = Spyc::YAMLLoad(ROOT.'/app/config/config.yml');
 		$config['database']['user'] = $_POST['user'];
 		$config['database']['password'] = $_POST['pwd'];
@@ -226,11 +229,11 @@ class MainController extends TzController {
 				// redirect /web/index.php which will redirect to /src/config/routing.yml
 				header('location:'.WEB_PATH.'/index.php');
 				} else {
-				require_once("../app/components/gui/views/_indexEdit.php");
+				require_once("../app/Components/gui/views/_indexEdit.php");
 			}
 		} 
 		else {
-			require_once("../app/components/gui/views/_indexEdit.php");
+			require_once("../app/Components/gui/views/_indexEdit.php");
 		}
 
 	}

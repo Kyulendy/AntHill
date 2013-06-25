@@ -1,7 +1,6 @@
-
-	<?php
-
-				
+<?php
+		use Components\SQLEntities\TzSQL;
+		use Components\DebugTools\DebugTool;
 
 		class project_has_userEntity {
 					
@@ -13,6 +12,15 @@
 			
 			private $date_added;
 			
+            private $relations = array('project'=>array('id_project'=>'id_project'),'users'=>array('id_user'=>'id_user'),'role'=>array('id_role'=>'id_role'),);
+        
+            private $project;
+            
+            private $users;
+            
+            private $role;
+            
+
 
 
 			/********************** GETTER ***********************/
@@ -134,7 +142,7 @@
 					
 
 			/********************** FindAll ***********************/
-			public function findAll(){
+			public function findAll($recursif = 'yes'){
 
 				$sql = 'SELECT * FROM project_has_user';
 				$result = TzSQL::getPDO()->prepare($sql);
@@ -150,6 +158,16 @@
 
 						$method = 'set'.ucfirst($k);
 						$tmpInstance->$method($value);
+
+						if($recursif == null){
+                            foreach($this->relations as $relationId => $relationLinks){
+                                if(array_key_exists($k, $relationLinks)){
+                                    $entity = tzSQL::getEntity($relationId);
+                                    $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                    $tmpInstance->$relationId = $content;
+                                }
+                            }
+                        }
 					}
 					array_push($entitiesArray, $tmpInstance);
 				}
@@ -197,9 +215,21 @@
 
 				if(!empty($result)){
 					$this->id_project = $result->id_project;
-					$this->id_user = $result->id_user;
-					$this->id_role = $result->id_role;
-					$this->date_added = $result->date_added;
+					
+                    $entityId_project = tzSQL::getEntity('project');
+                    $contentId_project =  $entityId_project->findManyBy('id_project',$result->id_project, 'no');
+                    $this->project = $contentId_project;
+                $this->id_user = $result->id_user;
+					
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$result->id_user, 'no');
+                    $this->users = $contentId_user;
+                $this->id_role = $result->id_role;
+					
+                    $entityId_role = tzSQL::getEntity('role');
+                    $contentId_role =  $entityId_role->findManyBy('id_role',$result->id_role, 'no');
+                    $this->role = $contentId_role;
+                $this->date_added = $result->date_added;
 					
 					return true;
 				}
@@ -220,9 +250,21 @@
 				$formatResult = $result->fetch(PDO::FETCH_OBJ);
 				if(!empty($formatResult)){
 					$this->id_project = $formatResult->id_project;
-					$this->id_user = $formatResult->id_user;
-					$this->id_role = $formatResult->id_role;
-					$this->date_added = $formatResult->date_added;
+				
+                    $entityId_project = tzSQL::getEntity('project');
+                    $contentId_project =  $entityId_project->findManyBy('id_project',$formatResult->id_project, 'no');
+                    $this->project = $contentId_project;
+                	$this->id_user = $formatResult->id_user;
+				
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$formatResult->id_user, 'no');
+                    $this->users = $contentId_user;
+                	$this->id_role = $formatResult->id_role;
+				
+                    $entityId_role = tzSQL::getEntity('role');
+                    $contentId_role =  $entityId_role->findManyBy('id_role',$formatResult->id_role, 'no');
+                    $this->role = $contentId_role;
+                	$this->date_added = $formatResult->date_added;
 				
 					return true;
 				}
@@ -234,7 +276,7 @@
 			
 
 			/************* FindManyBy(column, value) ***************/
-			public function findManyBy($param,$value){
+			public function findManyBy($param,$value,$recursif = 'yes'){
 
 
 				switch ($param){
@@ -276,6 +318,17 @@
 
 							$method = 'set'.ucfirst($k);
 							$tmpInstance->$method($value);
+
+                            if($recursif == 'yes'){
+                                foreach($this->relations as $relationId => $relationLinks){
+                                    if(array_key_exists($k, $relationLinks)){
+                                        $entity = tzSQL::getEntity($relationId);
+                                        $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                        $tmpInstance->$relationId = $content;
+                                    }
+                                }
+                            }
+
 						}
 						array_push($entitiesArray, $tmpInstance);
 					}

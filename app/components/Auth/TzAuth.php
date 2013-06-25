@@ -1,5 +1,7 @@
 <?php
 
+namespace Components\Auth;
+use Components\SQLEntities\TzSQL;
 
 class TzAuth {
     
@@ -8,7 +10,7 @@ class TzAuth {
     public static function init($salt){
         self::$salt = $salt;
     }
-    public static function login(array $values) {
+    public static function login(array $values, $pwdEncrypt = false) {
         if(is_null(TzSQL::getPDO())){
             return false;
         }
@@ -20,7 +22,9 @@ class TzAuth {
                 $query .= ' AND ';
             }
             if($field == 'password'){
-                $value = self::encryptPwd($value);
+                if(!$pwdEncrypt){
+                    $value = self::encryptPwd($value);
+                }
             }
             $query .= $field.' = "'.$value.'"';
 
@@ -29,7 +33,7 @@ class TzAuth {
 
         $data = TzSQL::getPDO()->prepare($query);
         $data->execute();
-        $user = $data->fetchAll(PDO::FETCH_ASSOC);
+        $user = $data->fetchAll(\PDO::FETCH_ASSOC);
         if(!empty($user)){
             self::addUserSession($user[0]);
             return true;
@@ -60,7 +64,7 @@ class TzAuth {
         }
     }
 
-    private static function addUserSession($data, $value = null){
+    protected static function addUserSession($data, $value = null){
         if(is_null($value)){
             foreach ($data as $field => $value) {
                 $_SESSION['User'][$field] = $value;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Components\FileManager;
+
 class TzFileManager
 {
 	private $currentPath;
@@ -500,10 +502,5 @@ class TzFileManager
 			if (!copy($origin, $destinataire)) {
     			$this->error = "La copie  du fichier a échoué...\n";
 			}
-
-		
 	}
 }
-
-
-?>

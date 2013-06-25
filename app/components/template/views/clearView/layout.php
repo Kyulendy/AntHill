@@ -22,7 +22,7 @@
  *}
  */
 
-if(TzRender::getPage() == 'Default') {
+if(Components\RenderTplEngine\TzRender::getPage() == 'Default') {
  	include_once  ROOT.'/src/views/templates/default.php'; 
 }
 

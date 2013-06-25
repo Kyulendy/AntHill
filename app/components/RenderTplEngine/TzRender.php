@@ -3,6 +3,10 @@
  * Allow compatibility between differents template engines : one methode for all
  */
 
+namespace Components\RenderTplEngine;
+use Components\DebugTools\DebugTool;
+use Components\DebugTools\ErrorManager\ErrorManager;
+
 class TzRender {
 	
 	private static $instance;
@@ -15,6 +19,7 @@ class TzRender {
 	// prop & file when using PHP
 	private $prop;
 	private $file;
+	private static $propStatic = array();
 	// array that store object of either smarty or twig
 	private $renderedPage = array();
 	private static $page;
@@ -24,11 +29,11 @@ class TzRender {
 		switch ($tpl) {
 			
 			case 'twig':
-				if (file_exists(ROOT.'/vendors/Twig-1.11.1/lib/Twig/Autoloader.php')) {
-					require_once ROOT.'/vendors/Twig-1.11.1/lib/Twig/Autoloader.php';
-					Twig_Autoloader::register();
-					$loader = new Twig_Loader_Filesystem(self::$path);
-					$this->renderedPage = new Twig_Environment($loader);
+				if (file_exists(ROOT.'/vendors/twig/twig/lib/Twig/Autoloader.php')) {
+					require_once ROOT.'/vendors/twig/twig/lib/Twig/Autoloader.php';
+					\Twig_Autoloader::register();
+					$loader = new \Twig_Loader_Filesystem(self::$path);
+					$this->renderedPage = new \Twig_Environment($loader);
 					$this->tpl = 'twig';
 					$this->ext = 'html.twig';
 				} else {
@@ -37,9 +42,9 @@ class TzRender {
 				break;
 
 			case 'smarty':
-				if (file_exists(ROOT.'/vendors/Smarty-3.1.12.2/libs/Smarty.class.php')) {
-					require_once ROOT.'/vendors/Smarty-3.1.12.2/libs/Smarty.class.php';
-					$this->renderedPage = new Smarty();
+				if (file_exists(ROOT.'/vendors/smarty/smarty/distribution/libs/Smarty.class.php')) {
+					require_once ROOT.'/vendors/smarty/smarty/distribution/libs/Smarty.class.php';
+					$this->renderedPage = new \Smarty();
 					$this->renderedPage->setTemplateDir(self::$path);
 					$this->tpl = 'smarty';
 					$this->ext = 'tpl';
@@ -52,6 +57,7 @@ class TzRender {
 				$this->ext = $this->tpl = 'php';
 				break;
 		}
+		$this->prop = TzRender::$propStatic;
 	}
 
 	// singleton
@@ -66,9 +72,24 @@ class TzRender {
 		}
 	}
 
+	// add prop
+	public static function addProps(array $NewProps) {
+		$result = array_merge(self::$propStatic, $NewProps);
+		self::$propStatic = $result;
+	}
+
+	public function addVar($name, $value){
+		$this->prop[$name] = $value;
+	}
+
 	public function run($file , array $prop = null) {
 			
 		$this->fileExists($file);
+		if (is_null($prop)) {
+			$prop = $this->prop;
+		} else {
+			$prop = array_merge($prop,$this->prop);
+		}
 		$prop['WEB_PATH'] = WEB_PATH;
 		$prop['SESSION'] = $_SESSION;
 		//return the template depending of the engine chosen by the user

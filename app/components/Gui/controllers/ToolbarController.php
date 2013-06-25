@@ -1,11 +1,15 @@
 <?php
 
+use Components\DebugTools\DebugTool;
+use Components\FileManager\TzFileManager;
+use Components\SQLEntities\TzSQL;
+
 class ToolbarController {
 
     public function indexAction() {
         define('PATH_TOOLBAR', 'home');
         $active = 'home';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function phpinfoConfigurationAction() {
@@ -13,7 +17,7 @@ class ToolbarController {
         $php_config = DebugTool::$toolbar->phpinfo_array(4, 1);
         $config = $php_config['PHP Core'];
         $active = 'config';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function phpinfoGeneralAction() {
@@ -21,7 +25,7 @@ class ToolbarController {
         $php_config = DebugTool::$toolbar->phpinfo_array(1, 1);
         $config = $php_config['PHP Configuration'];
         $active = 'general';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function phpinfoEnvAction() {
@@ -29,7 +33,7 @@ class ToolbarController {
         $php_config = DebugTool::$toolbar->phpinfo_array(16, 1);
         $config = $php_config['Environment'];
         $active = 'env';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function phpinfoVariableAction() {
@@ -37,21 +41,21 @@ class ToolbarController {
         $php_config = DebugTool::$toolbar->phpinfo_array(32, 1);
         $config = $php_config['PHP Variables'];
         $active = 'variable';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function phpinfoModuleAction() {
         define('PATH_TOOLBAR', 'phpinfo-module');
         $module = DebugTool::$toolbar->phpinfo_array(8, 1);
         $active = 'module';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function logAction() {
         define('PATH_TOOLBAR', 'log');
         $logs = DebugTool::$errorExtend->getArrayOfError();
         $active = 'logs';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function generateACLAction() {
@@ -64,8 +68,8 @@ class ToolbarController {
             $query = "SELECT `id`, `name` FROM acl_groups";
             $data = TzSQL::getPDO()->prepare($query);
             $data->execute();
-            $aclGroups = $data->fetchAll(PDO::FETCH_ASSOC);
-            require_once(ROOT.'/app/components/Spyc/Spyc.php');
+            $aclGroups = $data->fetchAll(\PDO::FETCH_ASSOC);
+            require_once(ROOT.'/app/Components/Spyc/Spyc.php');
             $fm = new TzFileManager(ROOT);
             
             $fm->set_currentItem(ROOT."/app/cache/groups.yml");
@@ -80,20 +84,20 @@ class ToolbarController {
         
     
         $active = 'acl';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     
-        
     }
 
     public function configAction() {
         define('PATH_TOOLBAR', 'config-prod');
         $active = 'config-prod';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
 
     public function configDevAction() {
         define('PATH_TOOLBAR', 'config-dev');
         $active = 'config-dev';
-        require_once ROOT.'/app/components/Gui/views/toolbar-layout.php';
+        require_once ROOT.'/app/Components/Gui/views/toolbar-layout.php';
     }
+
 }

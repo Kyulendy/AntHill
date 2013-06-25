@@ -1,4 +1,9 @@
 <?php
+use Components\Kernel\TzKernel;
+use Components\Controller\TzController;
+use Components\Auth\TzAuth;
+use Components\SQLEntities\TzSQL;
+
 /**
  * This class is call by /src/config/routing.yml
  * when no parameters are passed.
@@ -47,7 +52,7 @@ class defaultController extends TzController {
 					    			'login'   => $login,
 			                		'firstname' => $user->getFirst_name(),
 			                		'lastname' => $user->getLast_name());
-			  			//TzAuth::addUserSession($data); // ?
+			  			TzAuth::addSession($data); // ?
 					    $this->tzRender->run('/templates/dashboard', $data);
 					    //dashb - inside it use sessions names and stuff
 					} else {

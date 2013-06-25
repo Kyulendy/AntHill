@@ -1,5 +1,8 @@
 <?php
 
+namespace Components\Controller;
+use Components\Kernel\TzKernel;
+
 class TzController {
 
 	public $tiitzData;  
@@ -12,15 +15,15 @@ class TzController {
     private static $tiitzVersion = '0.3';
     
     public function __construct() {
-        $this->conf         = tzKernel::$tzConf;
-        $this->route        = tzKernel::$tzRoute;
-        $this->tzRender     = tzKernel::$tzRender;
+        $this->conf         = TzKernel::$tzConf;
+        $this->route        = TzKernel::$tzRoute;
+        $this->tzRender     = TzKernel::$tzRender;
     }
 
     // Made by Tiitz team for Mister Gael Coat, special dedicasse !
     protected function callController($controller, $action) {
-        $Controller .= "Controller";
-        $Action     .= "Action";
+        $controller .= "Controller";
+        $action     .= "Action";
 
         if (is_file(ROOT.tzKernel::$tzRoute['dirPath'].$controller.'.php')) {
             require_once ROOT.tzKernel::$tzRoute['dirPath'].$controller.'.php';

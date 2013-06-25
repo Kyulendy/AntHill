@@ -1,5 +1,8 @@
 <?php 
 
+namespace Components\SQLEntities;
+use Components\DebugTools\DebugTool;
+
 class TzSQL
 {
 	/** 
@@ -26,11 +29,11 @@ class TzSQL
 		self::setDb($db);
 
 		try {
-		    $tzPDO = new PDO('mysql:host='.self::getHost().';dbname='.self::getDb(), self::getUser(), self::getPassword());
-		    $tzPDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		    $tzPDO = new \PDO('mysql:host='.self::getHost().';dbname='.self::getDb(), self::getUser(), self::getPassword());
+		    $tzPDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 		    self::$tzPDO = $tzPDO;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			self::$instance == null;
 			DebugTool::$error->catchError($e,true);
 		}
@@ -171,7 +174,7 @@ class TzSQL
 			$request = self::$tzPDO->prepare($query);
 			$request->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			DebugTool::$error->catchError($e, false);
 		}
 	}
@@ -206,7 +209,7 @@ class TzSQL
 				$request = self::$tzPDO->prepare($query);
 				$request->execute();
 			}
-			catch(PDOException $e){
+			catch(\PDOException $e){
 				DebugTool::$error->catchError($e, false);
 			}
 		}
@@ -247,7 +250,7 @@ class TzSQL
 			$request = self::$tzPDO->prepare($query);
 			$request->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			DebugTool::$error->catchError($e, false);
 		}
     }
@@ -298,7 +301,7 @@ class TzSQL
 
 			return $results;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			DebugTool::$error->catchError($e, false);
 		}
     }

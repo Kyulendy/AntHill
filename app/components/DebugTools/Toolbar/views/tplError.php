@@ -1,3 +1,7 @@
+<?php 
+	use Components\DebugTools\DebugTool;
+ ?>
+
 <div id="currentError" style="display:block;">
 	<div class="modal-body">
 		<?php 

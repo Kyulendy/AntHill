@@ -1,6 +1,6 @@
 <h2>Fichier config_dev.yml</h2>
 <?php
-$config = tzKernel::$tzDevConf;
+$config = Components\Kernel\tzKernel::$tzDevConf;
 ?>
 <table class="table table-hover">
     <?php

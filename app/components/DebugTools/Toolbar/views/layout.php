@@ -1,4 +1,6 @@
 <?php
+	use Components\DebugTools\DebugTool;
+	use Components\Kernel\TzKernel;
 	require ('tplError.php');
 	// require ('tplLog.php');
 ?>
@@ -22,13 +24,13 @@
 							   	<ul>
 							   		<li>
 							   			<div id="toolbar-photo">
-							   				<a href="https://plus.google.com/communities/102794938632806435828">
+							   				<a href="https://tiitz.com">
 							   					<img src="<?php print WEB_PATH; ?>/tiitz/img/toolbar-tiitz.png" alt="Tiitz Official Website" />
 							   				</a>	
 							   			</div>
 							   			<div id="toolbar-content">
 							   				<div id="toolbar-header">
-							   					<h2><a href="https://plus.google.com/communities/102794938632806435828">Site Officiel</a></h2>
+							   					<h2><a href="https://tiitz.com">Site Officiel</a></h2>
 							   				</div>
 							   				<div id="toolbar-text">
 							   					<p>
@@ -40,13 +42,13 @@
 							   		</li>
 							   		<li>
 							   			<div id="toolbar-photo">
-							   				<a href="https://plus.google.com/communities/102794938632806435828">
+							   				<a href="https://plus.google.com/communities/116919845671898602897">
 							   					<img src="<?php print WEB_PATH; ?>/tiitz/img/toolbar-google-community.png" alt="google+" />
 							   				</a>
 							   			</div>
 							   			<div id="toolbar-content">
 							   				<div id="toolbar-header">
-							   					<h2><a href="https://plus.google.com/communities/102794938632806435828">Google Communaut&eacute;</a></h2>
+							   					<h2><a href="https://plus.google.com/communities/116919845671898602897">Google Communaut&eacute;</a></h2>
 							   				</div>
 							   				<div id="toolbar-text">
 							   					<p>

@@ -1,7 +1,6 @@
-
-	<?php
-
-				
+<?php
+		use Components\SQLEntities\TzSQL;
+		use Components\DebugTools\DebugTool;
 
 		class ticketEntity {
 					
@@ -29,6 +28,15 @@
 			
 			private $status;
 			
+            private $relations = array('category'=>array('id_category'=>'id_category'),'users'=>array('id_user'=>'id_user'),'project'=>array('id_project'=>'id_project'),);
+        
+            private $category;
+            
+            private $users;
+            
+            private $project;
+            
+
 
 
 			/********************** GETTER ***********************/
@@ -246,7 +254,7 @@
 					
 
 			/********************** FindAll ***********************/
-			public function findAll(){
+			public function findAll($recursif = 'yes'){
 
 				$sql = 'SELECT * FROM ticket';
 				$result = TzSQL::getPDO()->prepare($sql);
@@ -262,6 +270,16 @@
 
 						$method = 'set'.ucfirst($k);
 						$tmpInstance->$method($value);
+
+						if($recursif == null){
+                            foreach($this->relations as $relationId => $relationLinks){
+                                if(array_key_exists($k, $relationLinks)){
+                                    $entity = tzSQL::getEntity($relationId);
+                                    $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                    $tmpInstance->$relationId = $content;
+                                }
+                            }
+                        }
 					}
 					array_push($entitiesArray, $tmpInstance);
 				}
@@ -342,9 +360,21 @@
 				if(!empty($result)){
 					$this->id_ticket = $result->id_ticket;
 					$this->id_project = $result->id_project;
-					$this->id_user = $result->id_user;
-					$this->id_category = $result->id_category;
-					$this->title = $result->title;
+					
+                    $entityId_project = tzSQL::getEntity('project');
+                    $contentId_project =  $entityId_project->findManyBy('id_project',$result->id_project, 'no');
+                    $this->project = $contentId_project;
+                $this->id_user = $result->id_user;
+					
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$result->id_user, 'no');
+                    $this->users = $contentId_user;
+                $this->id_category = $result->id_category;
+					
+                    $entityId_category = tzSQL::getEntity('category');
+                    $contentId_category =  $entityId_category->findManyBy('id_category',$result->id_category, 'no');
+                    $this->category = $contentId_category;
+                $this->title = $result->title;
 					$this->content = $result->content;
 					$this->date_created = $result->date_created;
 					$this->duration_start = $result->duration_start;
@@ -373,9 +403,21 @@
 				if(!empty($formatResult)){
 					$this->id_ticket = $formatResult->id_ticket;
 					$this->id_project = $formatResult->id_project;
-					$this->id_user = $formatResult->id_user;
-					$this->id_category = $formatResult->id_category;
-					$this->title = $formatResult->title;
+				
+                    $entityId_project = tzSQL::getEntity('project');
+                    $contentId_project =  $entityId_project->findManyBy('id_project',$formatResult->id_project, 'no');
+                    $this->project = $contentId_project;
+                	$this->id_user = $formatResult->id_user;
+				
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$formatResult->id_user, 'no');
+                    $this->users = $contentId_user;
+                	$this->id_category = $formatResult->id_category;
+				
+                    $entityId_category = tzSQL::getEntity('category');
+                    $contentId_category =  $entityId_category->findManyBy('id_category',$formatResult->id_category, 'no');
+                    $this->category = $contentId_category;
+                	$this->title = $formatResult->title;
 					$this->content = $formatResult->content;
 					$this->date_created = $formatResult->date_created;
 					$this->duration_start = $formatResult->duration_start;
@@ -394,7 +436,7 @@
 			
 
 			/************* FindManyBy(column, value) ***************/
-			public function findManyBy($param,$value){
+			public function findManyBy($param,$value,$recursif = 'yes'){
 
 
 				switch ($param){
@@ -468,6 +510,17 @@
 
 							$method = 'set'.ucfirst($k);
 							$tmpInstance->$method($value);
+
+                            if($recursif == 'yes'){
+                                foreach($this->relations as $relationId => $relationLinks){
+                                    if(array_key_exists($k, $relationLinks)){
+                                        $entity = tzSQL::getEntity($relationId);
+                                        $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                        $tmpInstance->$relationId = $content;
+                                    }
+                                }
+                            }
+
 						}
 						array_push($entitiesArray, $tmpInstance);
 					}

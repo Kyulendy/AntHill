@@ -3,6 +3,10 @@
  * Class Toolbar
  * All usefull informations needed to display
  */
+
+namespace Components\DebugTools\Toolbar;
+use Components\DebugTools\DebugTool;
+
 class Toolbar {
 	
 	private $path 		= '/views/layout.php';

@@ -1,7 +1,6 @@
-
-	<?php
-
-				
+<?php
+		use Components\SQLEntities\TzSQL;
+		use Components\DebugTools\DebugTool;
 
 		class actionEntity {
 					
@@ -15,6 +14,13 @@
 			
 			private $date_action;
 			
+            private $relations = array('users'=>array('id_user'=>'id_user'),'ticket'=>array('id_ticket'=>'id_ticket'),);
+        
+            private $users;
+            
+            private $ticket;
+            
+
 
 
 			/********************** GETTER ***********************/
@@ -148,7 +154,7 @@
 					
 
 			/********************** FindAll ***********************/
-			public function findAll(){
+			public function findAll($recursif = 'yes'){
 
 				$sql = 'SELECT * FROM action';
 				$result = TzSQL::getPDO()->prepare($sql);
@@ -164,6 +170,16 @@
 
 						$method = 'set'.ucfirst($k);
 						$tmpInstance->$method($value);
+
+						if($recursif == null){
+                            foreach($this->relations as $relationId => $relationLinks){
+                                if(array_key_exists($k, $relationLinks)){
+                                    $entity = tzSQL::getEntity($relationId);
+                                    $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                    $tmpInstance->$relationId = $content;
+                                }
+                            }
+                        }
 					}
 					array_push($entitiesArray, $tmpInstance);
 				}
@@ -216,8 +232,16 @@
 				if(!empty($result)){
 					$this->id_action = $result->id_action;
 					$this->id_ticket = $result->id_ticket;
-					$this->id_user = $result->id_user;
-					$this->type = $result->type;
+					
+                    $entityId_ticket = tzSQL::getEntity('ticket');
+                    $contentId_ticket =  $entityId_ticket->findManyBy('id_ticket',$result->id_ticket, 'no');
+                    $this->ticket = $contentId_ticket;
+                $this->id_user = $result->id_user;
+					
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$result->id_user, 'no');
+                    $this->users = $contentId_user;
+                $this->type = $result->type;
 					$this->date_action = $result->date_action;
 					
 					return true;
@@ -240,8 +264,16 @@
 				if(!empty($formatResult)){
 					$this->id_action = $formatResult->id_action;
 					$this->id_ticket = $formatResult->id_ticket;
-					$this->id_user = $formatResult->id_user;
-					$this->type = $formatResult->type;
+				
+                    $entityId_ticket = tzSQL::getEntity('ticket');
+                    $contentId_ticket =  $entityId_ticket->findManyBy('id_ticket',$formatResult->id_ticket, 'no');
+                    $this->ticket = $contentId_ticket;
+                	$this->id_user = $formatResult->id_user;
+				
+                    $entityId_user = tzSQL::getEntity('users');
+                    $contentId_user =  $entityId_user->findManyBy('id_user',$formatResult->id_user, 'no');
+                    $this->users = $contentId_user;
+                	$this->type = $formatResult->type;
 					$this->date_action = $formatResult->date_action;
 				
 					return true;
@@ -254,7 +286,7 @@
 			
 
 			/************* FindManyBy(column, value) ***************/
-			public function findManyBy($param,$value){
+			public function findManyBy($param,$value,$recursif = 'yes'){
 
 
 				switch ($param){
@@ -300,6 +332,17 @@
 
 							$method = 'set'.ucfirst($k);
 							$tmpInstance->$method($value);
+
+                            if($recursif == 'yes'){
+                                foreach($this->relations as $relationId => $relationLinks){
+                                    if(array_key_exists($k, $relationLinks)){
+                                        $entity = tzSQL::getEntity($relationId);
+                                        $content =  $entity->findManyBy($relationLinks[$k],$value, 'no');
+                                        $tmpInstance->$relationId = $content;
+                                    }
+                                }
+                            }
+
 						}
 						array_push($entitiesArray, $tmpInstance);
 					}

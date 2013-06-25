@@ -4,6 +4,9 @@
  * when no parameters are passed.
  * You can change is behavior, do what you want.
  */
+
+use Components\Controller\TzController;
+
 class pageNotFoundController extends TzController {
 
 	// first method call when the website is launched

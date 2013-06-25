@@ -1,5 +1,8 @@
 <?php
-require_once ROOT.'/app/components/DebugTools/ErrorManager/class/ErrorManagerExtend.php';
+
+namespace Components\DebugTools\ErrorManager;
+use Components\DebugTools\DebugTool;
+use Components\DebugTools\ErrorManager\ErrorManagerExtend;
 
 class ErrorManager extends ErrorManagerExtend {
 	

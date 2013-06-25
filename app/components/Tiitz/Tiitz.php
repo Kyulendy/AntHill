@@ -2,7 +2,10 @@
 /**
  * Global initialisation for Tiitz framework
  */
-class TiiTz {
+
+namespace Components\Tiitz;
+
+class Tiitz {
     
     private $url;
 
