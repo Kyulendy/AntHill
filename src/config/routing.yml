@@ -17,3 +17,6 @@ logout:
 dashboard:
 	pattern:	 /dashboard
 	controller: default:dashboard
+newproject:
+	pattern:	 /project/new
+	controller: project:new

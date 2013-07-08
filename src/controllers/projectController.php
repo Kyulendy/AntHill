@@ -4,23 +4,30 @@ use Components\Controller\TzController;
 use Components\Auth\TzAuth;
 use Components\SQLEntities\TzSQL;
 
-/**
- * This class is call by /src/config/routing.yml
- * when no parameters are passed.
- * You can change is behavior, do what you want.
- */
-class defaultController extends TzController {
 
-	// First method call when the website is launched
-	public function showAction () {
-		  if(TzAuth::isUserLoggedIn()){
-		    echo 'Connécté';
-			$this->tzRender->run('/templates/dashboard');
+class projectController extends TzController {
+	// Create Project
+	public function newAction () {
+		  if(TzAuth::isUserLoggedIn()) {
+			if (!empty($_POST)) {
+				//Request sent
+				if ((empty($_POST['title']))||(empty($_POST['content']))) {
+				    $this->tzRender->run('/templates/newproject', array('error' => "Fill all the fields please"));
+				    $this->tzRender->run('/templates/newproject', array('error' => "Please enter a valid email"));
+				} else {
+					// Create new project
+					$project = tzSQL::getEntity('projects');
+					$project->setTitle($_POST['title']);
+					$project->setContent($_POST['content']);
+					$project->Insert();
+				    $this->tzRender->run('/templates/newproject', array('success' => "You have been registered. Please log in."));
+				}
+			} else {
+				$this->tzRender->run('/templates/newproject', TzAuth::readSession());
+			}
 		  } else {
-		    echo 'Non connecté';
-			$this->tzRender->run('/templates/login');		  	
+			$this->tzRender->run('/templates/newproject');		  	
 		  }
-		//$this->tzRender->run('/templates/default');                                                        
 	}
 
 	// Login attempt

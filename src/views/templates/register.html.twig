@@ -9,9 +9,11 @@
 		{#<h4 class="alert_info">Welcome to the free MediaLoot admin panel template, this could be an informative message.</h4>#}
 		
 		<article class="module width_full">
-			<form method='POST' action='{{WEB_PATH}}/register' name="register">
+			<form method='POST' action="{{WEB_PATH}}/register" name="registerz">
 			<header><h3>Register</h3></header>
+			{% if error is defined %}
 				<h4 class="alert_warning">{{error}}</h4>
+			{% endif %}
 				<div class="module_content">
 					<fieldset>
 						<label>Login</label>
@@ -38,6 +40,7 @@
 			<footer>
 				<div class="submit_link">
 					<input type="submit" value="Register" class="alt_btn">
+					<a href='{{WEB_PATH}}/login'>Have an account alreday ? Log in here </a>
 				</div>
 			</footer>
 		</form>

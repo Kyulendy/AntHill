@@ -1,0 +1,6 @@
+type=>none	message=>Result is null	file=>C:\wamp\www\AntHill\src\entities\usersEntity.class.php	line=>257	date=>2013-07-08 11:30:21
+type=>none	message=>Result is null	file=>C:\wamp\www\AntHill\src\entities\usersEntity.class.php	line=>257	date=>2013-07-08 11:33:36
+type=>none	message=>Result is null	file=>C:\wamp\www\AntHill\src\entities\usersEntity.class.php	line=>257	date=>2013-07-08 11:35:03
+type=>8	message=>Undefined property: usersEntity::$getId_user	file=>C:\wamp\www\AntHill\src\controllers\defaultController.php	line=>86	date=>2013-07-08 11:35:03
+type=>none	message=>Result is null	file=>C:\wamp\www\AntHill\src\entities\usersEntity.class.php	line=>257	date=>2013-07-08 11:40:42
+type=>none	message=>Result is null	file=>C:\wamp\www\AntHill\src\entities\usersEntity.class.php	line=>257	date=>2013-07-08 11:44:38
